@@ -20,8 +20,6 @@ public class GameCoordinator : MonoBehaviour
 
     public bool SaveGameExists()
     {
-       
-
         IDbCommand dbcmd = dbcon.CreateCommand();
         string q_createTable = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name != 'sqlite_sequence';\r\n";
         int tablesExpected = 2;
