@@ -119,22 +119,22 @@ public class LanceVrotController : MonoBehaviour
                 switch (direction)
                 {
                     case "east":
-                    Debug.Log("Stopped EAST");
+                    //Debug.Log("Stopped EAST");
 
                         MySpriteRenderer.sprite = NorthStationary;
                         break;
                     case "west":
-                    Debug.Log("Stopped WEST");
+                    //Debug.Log("Stopped WEST");
 
                         MySpriteRenderer.sprite = WestStationary;
                         break;
                     case "south":
-                    Debug.Log("Stopped SOUTH");
+                    //Debug.Log("Stopped SOUTH");
 
                     MySpriteRenderer.sprite = SouthStationary;
                         break;
                     case "north":
-                    Debug.Log("Stopped SOUTH");
+                    //Debug.Log("Stopped SOUTH");
 
                     MySpriteRenderer.sprite = NorthStationary;
                         break;

@@ -13,6 +13,7 @@ public class IntroDirector : MonoBehaviour
     bool enterPressed = false;
     bool saveCreationFailed = false;
     bool saveExists = false;
+    bool initGameCalled = false;
 
 
     // Start is called before the first frame update
@@ -51,6 +52,13 @@ public class IntroDirector : MonoBehaviour
             else
             {
                 text.GetComponent<TMPro.TextMeshProUGUI>().text = "Say goodbye to your mommy...";
+                if (!initGameCalled)
+                {
+                    initGameCalled = true;
+                    Debug.Log("Started");
+                    text.GetComponent<TMPro.TextMeshProUGUI>().text = "> starting up";
+                    gameCoordinator.GetComponent<GameCoordinator>().InitiateGame();
+                }
             }
 
             if (saveCreationFailed)

@@ -20,7 +20,7 @@ public class LevelType1 : MonoBehaviour
     [SerializeField] GameObject eastDoor;
     [SerializeField] GameObject southDoor;
     [SerializeField] GameObject westDoor;
-
+    [SerializeField] GameCoordinator gameCoordinator;
 
     // Start is called before the first frame update
     void Start()
