@@ -12,6 +12,7 @@ public class IntroDirector : MonoBehaviour
     private float timeToFlashText = TextFlashInterval;
     bool enterPressed = false;
     bool saveCreationFailed = false;
+    bool saveExists = false;
 
 
     // Start is called before the first frame update
@@ -23,7 +24,7 @@ public class IntroDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(timeToFlashText < 0 && enterPressed){
+        if(timeToFlashText < 0 && !enterPressed){
             text.SetActive(!text.activeSelf);
             timeToFlashText = TextFlashInterval;
         }else{
@@ -34,36 +35,35 @@ public class IntroDirector : MonoBehaviour
         {
             enterPressed = true;
             Debug.Log("Starting....");
-            bool saveExists = gameCoordinator.GetComponent<GameCoordinator>().SaveGameExists();
+            saveExists = gameCoordinator.GetComponent<GameCoordinator>().SaveGameExists();
             Debug.Log(saveExists);
+        }
+
+        if (enterPressed)
+        {
             if (!saveExists)
             {
                 text.GetComponent<TMPro.TextMeshProUGUI>().text = "SAVE NOT FOUND... CREATING";
-                gameCoordinator.GetComponent<GameCoordinator>().CreateDatabases();
-                saveCreationFailed =  !gameCoordinator.GetComponent<GameCoordinator>().SaveGameExists()
-
-
+                gameCoordinator.GetComponent<GameCoordinator>().CreateDatabase();
+                saveCreationFailed = !gameCoordinator.GetComponent<GameCoordinator>().SaveGameExists();
+                saveExists = !saveCreationFailed;
             }
-
-        }
-
-        if (saveCreated){
-
-            gpCountdown -= Time.deltaTime;
-
-            if(gpCountdown < 0)
+            else
             {
-                text.GetComponent<TMPro.TextMeshProUGUI>().text = ">save created........ soul captured";
+                text.GetComponent<TMPro.TextMeshProUGUI>().text = "Say goodbye to your mommy...";
+            }
+
+            if (saveCreationFailed)
+            {
+                text.GetComponent<TMPro.TextMeshProUGUI>().text = "ERROR! FAILED TO CREATE SAVE FILE";
 
             }
 
-        }
-
-        if (saveCreationFailed)
-        {
-            text.GetComponent<TMPro.TextMeshProUGUI>().text = "ERROR! FAILED TO CREATE/LOAD SAVE";
 
         }
+
+
+
 
 
 
