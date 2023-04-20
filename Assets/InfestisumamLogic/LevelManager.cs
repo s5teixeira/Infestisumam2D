@@ -14,6 +14,7 @@ public struct Path
     public int locY { get; set; }
     public int locZ { get; set; }
 
+
 }
 
 public struct Level
@@ -24,7 +25,7 @@ public struct Level
     public int eastDoorState { get; set; }
     public int southDoorState { get; set; }
     public int westDoorState { get; set; }
-
+    
 }
 
 
@@ -33,8 +34,8 @@ public class LevelManager : MonoBehaviour
 
     public List<string> GameLevels = new List<string>();
     IDbConnection dbCon;
-    Level level;
-    Path path;
+    //Level level;
+    //Path path;
 
     public void SetDatabase(IDbConnection dbCon_)
     {
@@ -53,7 +54,7 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    public bool ResolvePath(int pathID)
+    public (Path resPath, Level resLevel) ResolvePath(int pathID)
     {
         // Resolves level from path node
         bool isResolved = false;
@@ -92,62 +93,69 @@ public class LevelManager : MonoBehaviour
 
         if (isResolved)
         {
-            level = resolvedLevel;
-            path = resolvedPath;
+            // level = resolvedLevel;
+            // path = resolvedPath;
+           // resPath = resolvedPath;
+           // resLevel = resolvedLevel;
+
+            return (resolvedPath, resolvedLevel);
+        }
+        else
+        {
+            return (new Path(), new Level());
         }
 
-        return isResolved;        
     }
 
 
-    public bool MakeSceneAtCoord(int x, int y, int z, string sceneName)
+    public (Path resPath, Level resLevel) MakeSceneAtCoord(int x, int y, int z, string sceneName)
     {
         IDbCommand dbcmd = dbCon.CreateCommand();
         Level newLevel = CreateLevel(sceneName);
         string addLevel = String.Format("INSERT INTO Level(level_type, north_door_state, east_door_state, south_door_state, west_door_state) VALUES('{0}', {1}, {2}, {3}, {4}) RETURNING level_id", 
                                         newLevel.levelType, newLevel.northDoorState, newLevel.eastDoorState, newLevel.southDoorState, newLevel.westDoorState);
         dbcmd.CommandText = addLevel;
-        int levelID = -1;
         using (IDataReader dataReader = dbcmd.ExecuteReader())
         {
             while (dataReader.Read())
             {
-                levelID = dataReader.GetInt32(0);
+                newLevel.levelID = dataReader.GetInt32(0);
             }
 
 
         }
 
-        Debug.Log("LEVEL ID " + levelID);
-        if (levelID == -1)
+        Debug.Log("LEVEL ID " + newLevel.levelID);
+        if (newLevel.levelID == 0)
         {
-            return false;
+            return (new Path(), new Level());
         }
 
-        level = newLevel;
-        level.levelID = levelID;
-        string addPath = String.Format("INSERT INTO Path(level_id, xloc, yloc, zloc) VALUES({0}, {1}, {2}, {3}) RETURNING path_id", level.levelID, x, y, z);
+        // level = newLevel;
+        //level.levelID = levelID;
+        string addPath = String.Format("INSERT INTO Path(level_id, xloc, yloc, zloc) VALUES({0}, {1}, {2}, {3}) RETURNING path_id", newLevel.levelID, x, y, z);
         dbcmd.CommandText = addPath;
-        int pathID = -1;
+        Path newPath = new Path();
         using (IDataReader dataReader = dbcmd.ExecuteReader())
         {
             if (dataReader.Read())
             {
-                pathID = dataReader.GetInt32(0);
+                newPath.pathID = dataReader.GetInt32(0);
             }
 
 
         }
-        Debug.Log("Path ID: " + pathID);
-        if (pathID == -1)
+        Debug.Log("Path ID: " + newPath.pathID);
+        if (newPath.pathID == 0)
         {
-            return false;
+            return (new Path(), new Level());
         }
-        path.pathID = level.levelID;
-        path.locX = x;
-        path.locY = y;
-        path.locZ = z;
-        return true;
+
+        newPath.pathID = newLevel.levelID;
+        newPath.locX = x;
+        newPath.locY = y;
+        newPath.locZ = z;
+        return (newPath, newLevel);
     }
 
     public int GetPathIDAtCoords(int x, int y, int z)
@@ -231,17 +239,8 @@ public class LevelManager : MonoBehaviour
 
 
     // Getters
-    public Level GetLevel()
-    {
-        return level;
-    }
 
-    public Path GetPath()
-    {
-        return path;
-    }
-
-    public void SetDoorStatus(string direction, int status)
+    public void SetDoorStatus(Level level, string direction, int status)
     {
         switch (direction)
         {
@@ -274,14 +273,14 @@ public class LevelManager : MonoBehaviour
     }
 
 
-    public void LoadScene()
+    public void LoadScene(Level inlevel)
     {
         /*
          *  We will have logic to decide which scene goes next but for now...
          * 
          */
 
-        SceneManager.LoadScene(level.levelType);
+        SceneManager.LoadScene(inlevel.levelType);
     }
 
 

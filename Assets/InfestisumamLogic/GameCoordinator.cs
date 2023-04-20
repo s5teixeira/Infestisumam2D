@@ -16,6 +16,9 @@ public class GameCoordinator : MonoBehaviour
     [SerializeField]public LevelManager levelManager;
     [SerializeField]public CharacterManager charManager;
     private bool isTransitioning = false;
+    private Level currentLevel;
+    private Path currentPath;
+
 
     IDbConnection dbcon;
     // Start is called before the first frame update
@@ -85,40 +88,65 @@ public class GameCoordinator : MonoBehaviour
   
     }
 
-    public void LoadLevelInformation()
+
+
+
+
+    /* !DEPRECATED! DO NOT USE*/
+   
+
+
+    public void LoadLevelData()
     {
         charManager.LoadLastCharacter();
-        bool pathResolved = levelManager.ResolvePath(charManager.GetLocation());
-        Debug.Log(pathResolved + " / " + charManager.GetLocation() + " / ");
-        if (!pathResolved)
-        {
-            Debug.LogError("FAILED TO RESOLVE LEVEL");
-        }
-        else
-        {
-            Debug.Log("LevelID: " + levelManager.GetLevel().levelID + " has been loaded from save");
-        }
+        var levelData = levelManager.ResolvePath(charManager.GetLocation());
+        currentLevel = levelData.resLevel;
+        currentPath = levelData.resPath;
+        Debug.LogWarning("CHARLOC: " + charManager.GetLocation() + "/ " + currentLevel.levelID);
+
+
+
     }
+
 
     public void InitiateGame()
     {
         charManager.LoadLastCharacter();
-        bool pathResolved = levelManager.ResolvePath(charManager.GetLocation());
-        Debug.Log(pathResolved);
-        if (pathResolved)
+        var levelData = levelManager.ResolvePath(charManager.GetLocation());
+
+
+        Debug.LogWarning(levelData.resLevel.levelID);
+
+        if (levelData.resLevel.levelID == 0)
         {
+            if (charManager.GetLocation() == 0)
+            {
+                var sceneData = levelManager.MakeSceneAtCoord(0, 0, 0, "EasyLevel");
+
+                if (sceneData.resLevel.levelID != 0)
+                {
+                    charManager.UpdateLocation(sceneData.resPath.pathID);
+
+                    Debug.LogError("CHAR CR: " + charManager.GetLocation() + "/" + sceneData.resPath.pathID);
+
+                    levelManager.LoadScene(sceneData.resLevel);
+                }
+                else
+                {
+                    Debug.LogError("FAILED TO INIT LEVEL");
+                    Debug.LogError("CHAR CR: " + charManager.GetLocation() + "/" + sceneData.resPath.pathID);
+
+                }
+
+            }
             // Path resolved
-            levelManager.LoadScene();
         }
         else{
-            if(charManager.GetLocation() == 0)
-            {
-                levelManager.MakeSceneAtCoord(0, 0, 0, "EasyLevel");
-                levelManager.LoadScene();
-            }
-
-
+            levelManager.LoadScene(levelData.resLevel);
         }
+
+        currentPath = levelData.resPath;
+        currentLevel = levelData.resLevel;
 
     }
 
@@ -159,24 +187,24 @@ public class GameCoordinator : MonoBehaviour
             }
 
 
-            Path currentPath = levelManager.GetPath();
+            //Path currentPath = levelManager.GetPath();
 
             int pathIDAtCoords = levelManager.GetPathIDAtCoords(currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0);
 
             //Debug.Log("Room to the " + direction + " exists " + pathIDAtCoords);
             Debug.Log(String.Format("New Location: PATHID {0}/{1}/{2}/{3}", pathIDAtCoords, currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0));
-
+            Debug.LogError(pathIDAtCoords);
             if (pathIDAtCoords == -1) {
-                levelManager.MakeSceneAtCoord(currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0, "EasyLevel");
-                charManager.UpdateLocation(levelManager.GetPath().pathID);
-                levelManager.SetDoorStatus(newRoomEntryDirection, 0); // So that we can always return
-                levelManager.LoadScene();
+                var levelAtCoords = levelManager.MakeSceneAtCoord(currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0, "EasyLevel");
+                charManager.UpdateLocation(levelAtCoords.resPath.pathID);
+                levelManager.SetDoorStatus(levelAtCoords.resLevel, newRoomEntryDirection, 0); // So that we can always return
+                levelManager.LoadScene(levelAtCoords.resLevel);
             }
             else {
-                levelManager.ResolvePath(pathIDAtCoords);
+                var levelAtCoords = levelManager.ResolvePath(pathIDAtCoords);
                 charManager.UpdateLocation(pathIDAtCoords);
 
-                levelManager.LoadScene();
+                levelManager.LoadScene(levelAtCoords.resLevel);
             }
 
         }
@@ -191,14 +219,14 @@ public class GameCoordinator : MonoBehaviour
     // GETTERS
     public Level GetCurrentLevel()
     {
-        return levelManager.GetLevel();
+        return currentLevel;
     }
 
     // SETTERS
 
     public Path GetCurrentPath()
     {
-        return levelManager.GetPath();
+        return currentPath;
     }
 
 

@@ -12,6 +12,7 @@ public class LevelDoorOperator : MonoBehaviour
     }
 
     [SerializeField] DoorState currentState;
+    [SerializeField] List<GameObject> DoorStates = new List<GameObject>();
     private GameObject doorItself;
     private bool playerInTriggerZone = false;
 
@@ -78,6 +79,19 @@ public class LevelDoorOperator : MonoBehaviour
 
         doorItself = transform.GetChild((int)currentState).gameObject;
         doorItself.SetActive(true);
+
+        for (int i = 0; i < DoorStates.Count; i++)
+        {
+            if(i != (int)currentState)
+            {
+                DoorStates[i].SetActive(false);
+
+            }
+
+        }
+       
+
+        /*
         for (int i = 0; i < transform.hierarchyCount; i++)
         {
             if (i != (int)currentState)
@@ -93,7 +107,7 @@ public class LevelDoorOperator : MonoBehaviour
                     Debug.LogError(this.name + " caught unity exception: " + e.ToString());
                 }
             }
-        }
+        }*/
 
         Debug.LogWarning(this.name + " SetState executed:  " + currentState);
 

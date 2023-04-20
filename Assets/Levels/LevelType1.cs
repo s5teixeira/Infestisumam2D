@@ -37,7 +37,7 @@ public class LevelType1 : MonoBehaviour
         Debug.LogError(" I AM STARTING !!! ");
         camera.transform.position = new Vector3(0, 0, -4);
 
-        gameCoordinator.GetComponent<GameCoordinator>().LoadLevelInformation();
+        gameCoordinator.GetComponent<GameCoordinator>().LoadLevelData();
         thisLevel = gameCoordinator.GetComponent<GameCoordinator>().GetCurrentLevel();
         thisPath = gameCoordinator.GetComponent<GameCoordinator>().GetCurrentPath();
         Debug.Log(thisLevel.eastDoorState);
