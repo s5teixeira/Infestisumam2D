@@ -35,7 +35,7 @@ public class CharacterManager : MonoBehaviour
             if (dataReader.Read())
             {
                 characterExists = true;
-                character.characterID = dataReader.GetInt32(0));
+                character.characterID = dataReader.GetInt32(0);
                 character.isAlive = Convert.ToBoolean(dataReader.GetInt32(1));
                 character.pathID = dataReader.GetInt32(2);
             }
@@ -49,10 +49,17 @@ public class CharacterManager : MonoBehaviour
     public void UpdateLocation(int pathID)
     {
         character.pathID = pathID;
+
+        IDbCommand dbcmd = dbCon.CreateCommand();
+        string getLastCharacter = String.Format("UPDATE Character SET pathID = {0} WHERE char_id = {1}", pathID, character.characterID);
+
+        dbcmd.CommandText = getLastCharacter;
+        bool characterExists = false;
+        dbcmd.ExecuteNonQuery();
     }
 
 
-    public int GetLocation(int pathID)
+    public int GetLocation()
     {
         return character.pathID;
     }

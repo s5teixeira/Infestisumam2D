@@ -37,6 +37,12 @@ public class LanceVrotController : MonoBehaviour
         DebugOutput = Soul.GetComponent<TextMeshPro>();
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.name);
+
+    }
+
     // Update is called once per frame
     void Update()
     {
