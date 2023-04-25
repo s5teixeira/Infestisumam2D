@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2976677846307369351}
   - component: {fileID: 3106359963283907512}
-  - component: {fileID: 6757291445899231194}
   - component: {fileID: 2062490345304198627}
   m_Layer: 0
   m_Name: GameCoordinator
@@ -46,22 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883cf8019702fe44497cc06d1d43b15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelManager: {fileID: 6757291445899231194}
+  levelManager: {fileID: 0}
   charManager: {fileID: 2062490345304198627}
---- !u!114 &6757291445899231194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6358897330721681437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59243490907aef4e999f2a2d17fded0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameLevels:
-  - EasyLevel
 --- !u!114 &2062490345304198627
 MonoBehaviour:
   m_ObjectHideFlags: 0

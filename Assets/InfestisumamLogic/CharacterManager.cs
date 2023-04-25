@@ -10,6 +10,7 @@ public struct Character
     public int characterID { get; set; }
     public bool isAlive { get; set; }
     public int pathID { get; set; }
+    public string lastEntryDir { get; set; }
 }
 
 public class CharacterManager : MonoBehaviour
@@ -38,6 +39,7 @@ public class CharacterManager : MonoBehaviour
                 character.characterID = dataReader.GetInt32(0);
                 character.isAlive = Convert.ToBoolean(dataReader.GetInt32(1));
                 character.pathID = dataReader.GetInt32(2);
+                character.lastEntryDir = dataReader.GetString(3);
             }
 
         }
@@ -46,12 +48,12 @@ public class CharacterManager : MonoBehaviour
         if (!characterExists) MakeCharacter();
     }
 
-    public void UpdateLocation(int pathID)
+    public void UpdateLocation(int pathID, string entryDirection)
     {
         character.pathID = pathID;
 
         IDbCommand dbcmd = dbCon.CreateCommand();
-        string getLastCharacter = String.Format("UPDATE Character SET pathID = {0} WHERE char_id = {1}", pathID, character.characterID);
+        string getLastCharacter = String.Format("UPDATE Character SET pathID = {0}, lastEntryDirection ='{1}' WHERE char_id = {2}", pathID, entryDirection, character.characterID);
 
         dbcmd.CommandText = getLastCharacter;
         bool characterExists = false;
@@ -64,6 +66,11 @@ public class CharacterManager : MonoBehaviour
         return character.pathID;
     }
 
+    public string GetLastEnteredDirection()
+    {
+        return character.lastEntryDir;
+    }
+
 
     private void MakeCharacter()
     {
@@ -72,7 +79,7 @@ public class CharacterManager : MonoBehaviour
         character.isAlive = true;
         character.pathID = 0;
 
-        string makeNewChar = ("INSERT INTO Character (alive, pathID) VALUES (1, 0)");
+        string makeNewChar = ("INSERT INTO Character (alive, pathID, lastEntryDirection) VALUES (1, 0, 'center')");
         IDbCommand dbcmd = dbCon.CreateCommand();
 
         dbcmd.CommandText = makeNewChar;
