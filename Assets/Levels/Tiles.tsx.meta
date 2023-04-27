@@ -9,9 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: cc34d0f3dc257a442819830b408c5322, type: 3}
   missingFiles: []
-  errors:
-  - Could not generate asset path for '../../../Desktop/GITS/GameFinalProject/Assets/Decorations/yuriyx/Assets/Tiles.png'
-  - 'Missing texture asset: ../../../Desktop/GITS/GameFinalProject/Assets/Decorations/yuriyx/Assets/Tiles.png'
+  errors: []
   warnings: []
   missingSortingLayers: []
   missingLayers: []
@@ -19,7 +17,7 @@ ScriptedImporter:
   importerVersion: 13
   pixelsPerUnit: 100
   edgesPerEllipse: 32
-  numberOfObjectsImported: 2
+  numberOfObjectsImported: 591
   useSpriteAtlas: 1
   atlasWidth: 2048
   atlasHeight: 2048

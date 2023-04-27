@@ -4,8 +4,7 @@ using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
 using System;
-
-
+using TMPro;
 
 
 
@@ -15,6 +14,7 @@ public class GameCoordinator : MonoBehaviour
     [SerializeField]public static string DatabaseName = ".infestisumam.save";
     [SerializeField]public LevelManager levelManager;
     [SerializeField]public CharacterManager charManager;
+    [SerializeField] public TMP_Text debugText;
     private bool isTransitioning = false;
     private Level currentLevel;
     private Path currentPath;
@@ -102,7 +102,7 @@ public class GameCoordinator : MonoBehaviour
         currentLevel = levelData.resLevel;
         currentPath = levelData.resPath;
         Debug.LogWarning("CHARLOC: " + charManager.GetLocation() + "/ " + currentLevel.levelID);
-
+        debugText.text = String.Format("LOCATION: {0}/{1}; LOC ID: {2}", currentPath.locX, currentPath.locY, currentPath.pathID);
 
 
     }
@@ -133,6 +133,7 @@ public class GameCoordinator : MonoBehaviour
                 else
                 {
                     Debug.LogError("FAILED TO INIT LEVEL");
+             
                     Debug.LogError("CHAR CR: " + charManager.GetLocation() + "/" + sceneData.resPath.pathID);
 
                 }
@@ -184,23 +185,26 @@ public class GameCoordinator : MonoBehaviour
                     break;
             }
 
+            Debug.LogWarning((currentPath.locX + (xModifier)) + " / " + (currentPath.locY + (yModifier)));
+           
             int pathIDAtCoords = levelManager.GetPathIDAtCoords(currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0);
+            Debug.LogWarning(pathIDAtCoords);
+            
+           if (pathIDAtCoords == -1)
+           {
+               var newLevel = levelManager.MakeSceneAtCoord(currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0);
+               charManager.UpdateLocation(newLevel.resPath.pathID, newRoomEntryDirection);
+               levelManager.LoadScene(newLevel.resLevel);
+           }
+           else
+           {
+               var levelAtCoords = levelManager.ResolvePath(pathIDAtCoords);
+               charManager.UpdateLocation(pathIDAtCoords, newRoomEntryDirection);
 
-            if (pathIDAtCoords == -1)
-            {
-                var newLevel = levelManager.MakeSceneAtCoord(currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0);
-                charManager.UpdateLocation(newLevel.resPath.pathID, newRoomEntryDirection);
-                levelManager.LoadScene(newLevel.resLevel);
-            }
-            else
-            {
-                var levelAtCoords = levelManager.ResolvePath(pathIDAtCoords);
-                charManager.UpdateLocation(pathIDAtCoords, newRoomEntryDirection);
+               levelManager.LoadScene(levelAtCoords.resLevel);
+           }
 
-                levelManager.LoadScene(levelAtCoords.resLevel);
-            }
-
-
+               
 
         }
 

@@ -9,7 +9,7 @@ using UnityEngine;
 public abstract class LevelManager : MonoBehaviour, ILevelManager
 {
 
-    IDbConnection dbCon;
+    public IDbConnection dbCon;
 
     public void SetDatabase(IDbConnection dbCon_)
     {
@@ -99,6 +99,45 @@ public abstract class LevelManager : MonoBehaviour, ILevelManager
         }
         Debug.LogError(" ID AT COORD  " + pathID);
         return pathID;
+    }
+
+    public string[] GetAdjacentLevels(int x, int y, int z)
+    {
+        string[] levels = new string[4];
+
+        int northPathID = GetPathIDAtCoords(x, y + 1, z);
+        int eastPathID = GetPathIDAtCoords(x + 1, y, z);
+        int southPathID = GetPathIDAtCoords(x, y - 1, z);
+        int westPathID = GetPathIDAtCoords(x - 1, y, z);
+
+       
+
+        if (northPathID != -1)
+        {
+            var res = ResolvePath(northPathID);
+            levels[0] = res.resLevel.levelType; 
+
+        }
+
+        if (southPathID != -1)
+        {
+            var res = ResolvePath(southPathID);
+            levels[2] = res.resLevel.levelType;
+        }
+        if (eastPathID != -1)
+        {
+            var res = ResolvePath(eastPathID);
+            levels[1] = res.resLevel.levelType;
+        }
+
+        if (westPathID != -1)
+        {
+            var res = ResolvePath(westPathID);
+            levels[3] = res.resLevel.levelType;
+        }
+
+
+        return levels;
     }
 
     public abstract (Path resPath, Level resLevel) MakeSceneAtCoord(int x, int y, int z);

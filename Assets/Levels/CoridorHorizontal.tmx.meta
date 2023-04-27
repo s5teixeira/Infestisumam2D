@@ -9,22 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 1fa25d03934ea624a82bf2fcee6f0873, type: 3}
   missingFiles: []
-  errors:
-  - Errors detected in tileset 'Tiles.tsx'. Check the tileset inspector for more
-    details. Your map may be broken until these are fixed.
-  - Could not find tile 89. Make sure the tilesets were successfully imported.
-  - Could not find tile 110. Make sure the tilesets were successfully imported.
-  - Could not find tile 131. Make sure the tilesets were successfully imported.
-  - Could not find tile 13. Make sure the tilesets were successfully imported.
-  - Could not find tile 34. Make sure the tilesets were successfully imported.
-  - Could not find tile 55. Make sure the tilesets were successfully imported.
-  - Could not find tile 110. Make sure the tilesets were successfully imported.
-  - Could not find tile 131. Make sure the tilesets were successfully imported.
-  - Could not find tile 65. Make sure the tilesets were successfully imported.
-  - Could not find tile 86. Make sure the tilesets were successfully imported.
-  - Could not find tile 2. Make sure the tilesets were successfully imported.
-  - Could not find tile 23. Make sure the tilesets were successfully imported.
-  - Could not find tile 44. Make sure the tilesets were successfully imported.
+  errors: []
   warnings: []
   missingSortingLayers: []
   missingLayers: []

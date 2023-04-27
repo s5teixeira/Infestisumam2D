@@ -8,13 +8,15 @@ public class LanceVrotController : MonoBehaviour
 
     [SerializeField] Animator _animation;
     [SerializeField] Rigidbody2D MyRigidBody;
-    [SerializeField] float moveScale = 200f;
+    [SerializeField] float moveScale = 0.5f;
     [SerializeField] SpriteRenderer MySpriteRenderer;
     [SerializeField] Sprite NorthStationary;
     [SerializeField] Sprite EastStationary;
     [SerializeField] Sprite SouthStationary;
     [SerializeField] Sprite WestStationary;
     [SerializeField] GameObject Soul; // Child object that controlls 
+    [SerializeField] Camera chaserCamera;
+
 
     private TextMeshPro DebugOutput;
 
@@ -62,7 +64,7 @@ public class LanceVrotController : MonoBehaviour
             UpdateAnims(xAmount, yAmount);
         }
 
-
+        chaserCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 
 
     }
@@ -185,7 +187,10 @@ public class LanceVrotController : MonoBehaviour
         if (Mathf.Abs(xAmount) > 0 || Mathf.Abs(yAmount) > 0)
         {
             //transform.position += new Vector3(moveScale * xAmount * Time.deltaTime, moveScale * yAmount * Time.deltaTime, 0);
-            MyRigidBody.velocity  = (new Vector3((moveScale * xAmount) * Time.deltaTime, (moveScale * yAmount) * Time.deltaTime, 0));
+            Vector3 newPos = new Vector3(moveScale * xAmount * Time.deltaTime, moveScale * yAmount * Time.deltaTime, 0);
+
+            transform.Translate(newPos);
+            //MyRigidBody.velocity  = (new Vector3((moveScale * xAmount) * Time.deltaTime, (moveScale * yAmount) * Time.deltaTime, 0));
         }
 
     }

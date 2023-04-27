@@ -14,6 +14,7 @@ public class SewerHorizontalCorridorLevel : MonoBehaviour
     {
         westernDoor.AttachOnPlayerInArea(OnWesternDoorEntered);
         easternDoor.AttachOnPlayerInArea(OnEasternDoorEntered);
+        gameCoordinator.GetComponent<GameCoordinator>().LoadLevelData();
     }
     
     private void OnEasternDoorEntered()

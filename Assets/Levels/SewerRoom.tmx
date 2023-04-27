@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
+ <editorsettings>
+  <export target="SewerRoom/SewerRoom.tmx" format="tmx"/>
+ </editorsettings>
  <tileset firstgid="1" name="Tiles" tilewidth="16" tileheight="16" tilecount="294" columns="21">
   <image source="Tiles.png" width="336" height="224"/>
  </tileset>
