@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 0c0e000c3e75d1443b6af4b544b34424
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: cc34d0f3dc257a442819830b408c5322, type: 3}
+  missingFiles: []
+  errors:
+  - Could not generate asset path for '../../../Desktop/GITS/GameFinalProject/Assets/Decorations/yuriyx/Assets/sewer_1.png'
+  - 'Missing texture asset: ../../../Desktop/GITS/GameFinalProject/Assets/Decorations/yuriyx/Assets/sewer_1.png'
+  warnings: []
+  missingSortingLayers: []
+  missingLayers: []
+  missingTags: []
+  importerVersion: 13
+  pixelsPerUnit: 100
+  edgesPerEllipse: 32
+  numberOfObjectsImported: 2
+  useSpriteAtlas: 1
+  atlasWidth: 2048
+  atlasHeight: 2048

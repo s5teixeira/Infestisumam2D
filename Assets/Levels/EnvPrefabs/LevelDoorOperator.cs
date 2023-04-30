@@ -12,9 +12,12 @@ public class LevelDoorOperator : MonoBehaviour
     }
 
     [SerializeField] DoorState currentState;
+    [SerializeField] List<GameObject> DoorStates = new List<GameObject>();
     private GameObject doorItself;
     private bool playerInTriggerZone = false;
+    public delegate void OnPlayerInCoverageArea();
 
+    private OnPlayerInCoverageArea actionOnPlayerInArea;
 
     // Start is called before the first frame update
     void Start()
@@ -30,18 +33,29 @@ public class LevelDoorOperator : MonoBehaviour
 
     }
 
+  
+
+   public void AttachOnPlayerInArea(OnPlayerInCoverageArea newAction)
+    {
+        actionOnPlayerInArea = newAction;
+        Debug.LogWarning("Method attached to the door");
+      //  newAction();
+    }   
+
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerSoul")
+        if (collision.gameObject.tag == "PlayerSoul" && !playerInTriggerZone)
         {
             playerInTriggerZone = true;
+
+            actionOnPlayerInArea();
         }
     }
 
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
+      //  Debug.Log(collision.gameObject.tag);
 
     }
 
@@ -49,7 +63,7 @@ public class LevelDoorOperator : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerSoul")
+        if (collision.gameObject.tag == "PlayerSoul" && playerInTriggerZone)
         {
             playerInTriggerZone = false;
         }
@@ -78,25 +92,23 @@ public class LevelDoorOperator : MonoBehaviour
 
         doorItself = transform.GetChild((int)currentState).gameObject;
         doorItself.SetActive(true);
-        for (int i = 0; i < transform.hierarchyCount; i++)
+
+        for (int i = 0; i < DoorStates.Count; i++)
         {
-            if (i != (int)currentState)
+            if(i != (int)currentState)
             {
-                try
-                {
-                    Debug.Log("I " + transform.GetChild(i).gameObject.name);
-                    transform.GetChild(i).gameObject.SetActive(false);
-                    Debug.Log("====================");
-                }
-                catch (UnityException e)
-                {
-                    Debug.LogError(this.name + " caught unity exception: " + e.ToString());
-                }
+                DoorStates[i].SetActive(false);
+
             }
+
         }
+       
 
         Debug.LogWarning(this.name + " SetState executed:  " + currentState);
 
     }
+
+
+
 
 }

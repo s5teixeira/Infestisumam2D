@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EasyLevel/EasyLevel.unity
     guid: 6f5cbcf1074449a438f407e104305e85
+  - enabled: 1
+    path: Assets/Scenes/EasyLevel/SewerRoom.unity
+    guid: ac0dc5b2fdd405a478ad8112a28597c9
+  - enabled: 1
+    path: Assets/Scenes/EasyLevel/SewerCorridorVertical.unity
+    guid: 3366d5c4d95960242b112357103c2ac7
+  - enabled: 1
+    path: Assets/Scenes/EasyLevel/SewerCorridorHorizontal.unity
+    guid: 4d4a26b9a5b86474e914c8ea836fa1a8
   m_configObjects: {}

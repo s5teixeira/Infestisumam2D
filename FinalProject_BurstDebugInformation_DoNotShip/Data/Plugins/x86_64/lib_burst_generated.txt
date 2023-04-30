@@ -1,4 +1,4 @@
-Library: D:\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+Library: C:\Users\YuriyZborovskiy\Desktop\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --platform=Windows
 --backend=burst-llvm-14
 --target=AVX2
@@ -131,8 +131,8 @@ Library: D:\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst
 --compilation-defines=ENABLE_URP
 --linker-options=PdbAltPath="FinalProject_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\GITS\GameFinalProject\Temp\Burst
---output=D:\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\YuriyZborovskiy\Desktop\GITS\GameFinalProject\Temp\Burst
+--output=C:\Users\YuriyZborovskiy\Desktop\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 
@@ -283,8 +283,8 @@ Library: D:\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst
 --compilation-defines=ENABLE_URP
 --linker-options=PdbAltPath="FinalProject_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\GITS\GameFinalProject\Temp\Burst
---output=D:\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\YuriyZborovskiy\Desktop\GITS\GameFinalProject\Temp\Burst
+--output=C:\Users\YuriyZborovskiy\Desktop\GITS\GameFinalProject\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 
