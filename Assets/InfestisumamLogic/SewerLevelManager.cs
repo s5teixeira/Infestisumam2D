@@ -11,14 +11,15 @@ public class SewerLevelManager : LevelManager
     private int x = -1;
     private int y = -1;
     private int z = -1;
+    private string inDirection = "";
 
     [SerializeField] List<string> sewerString = new List<string>();
 
 
     // Implementation
-    public override (Path resPath, Level resLevel) MakeSceneAtCoord(int _x, int _y, int _z)
+    public override (Path resPath, Level resLevel) MakeSceneAtCoord(int _x, int _y, int _z, string _inDirection = "default")
     {
-        x = _x; y = _y; z = _z;
+        x = _x; y = _y; z = _z; inDirection = _inDirection ;
         Path newPath = new Path();
         //Level newLevel = new Level();
         Level newLevel = CreateLevel();
@@ -67,122 +68,75 @@ public class SewerLevelManager : LevelManager
     {
         Level newLevel = new Level();
         System.Random rnd = new System.Random();
-        if (x == 0 && y == 0 && z == 0)
+        string corridorLevelName = "SewerCorridorVertical";
+        string roomName = "SewerRoom";
+
+
+        if (inDirection == "default")
         {
-            // Starting level
-            newLevel.levelType = "SewerRoom";
+            newLevel.levelType = roomName;
+            return newLevel;
+        }
+
+
+
+        if(inDirection == "north" || inDirection == "south")
+        {
+            corridorLevelName = "SewerCorridorVertical";
+
+        }
+        else if(inDirection == "east" || inDirection == "west")
+        {
+             corridorLevelName = "SewerCorridorHorizontal";
+
+        }
+
+        int consecRooms = 0;
+
+        switch (inDirection)
+        {   // we want to know number of corridors in the opposite direction
+            case "north":
+                consecRooms = CalculateConsecLevels("south", corridorLevelName);
+                //Debug.LogWarning("DDDDDDDDDDDDDDDDDDDDDD " + consecRooms);
+                break;
+
+            case "east":
+                consecRooms = CalculateConsecLevels("west", corridorLevelName);
+
+                break;
+
+            case "south":
+                consecRooms = CalculateConsecLevels("north", corridorLevelName);
+
+                break;
+
+            case "west":
+                consecRooms = CalculateConsecLevels("east", corridorLevelName);
+
+                break;
+        }
+
+        int maxRoomChance = 4;
+
+
+        if (consecRooms < 2)
+        {
+            maxRoomChance = 5;
+
+        }else if(consecRooms > 2)
+        {
+            maxRoomChance = 3;
+        }
+
+        if(rnd.Next(1, maxRoomChance) == 1)
+        {
+            newLevel.levelType = roomName;
         }
         else
         {
-            string[] adjacentLevels = GetAdjacentLevels(x, y, z);
-
-            string intermediateLevelType = "SewerCorridorHorizontal";
-            string sewerRoom = "SewerRoom";
-            int minRoll = 1;
-            int roomChance = 4;
-
-            int verticalConseq = 0;
-            int horizontalConseq = 0;
-
-            if (adjacentLevels[0] != null) // North
-            {
-                intermediateLevelType = "SewerCorridorVertical";
-
-                if (adjacentLevels[0] == "SewerRoom")
-                {
-                    roomChance = 10;
-                }
-                else if (adjacentLevels[0] == "SewerCorridorVertical")
-                {
-                    int conseqNorth = CalculateConsecLevels("north", adjacentLevels[0]);
-                    if (conseqNorth > 2)
-                    {
-                        roomChance = 2;
-                    }
-                    else
-                    {
-                        roomChance = 5;
-                    }
-                }
-
-            }
-            else if (adjacentLevels[1] != null)  // East
-            {
-                intermediateLevelType = "SewerCorridorHorizontal";
-
-                if (adjacentLevels[1] == "SewerRoom")
-                {
-                    roomChance = 10;
-                }
-                else if (adjacentLevels[1] == "SewerCorridorHorizontal")
-                {
-
-                    int conseqNorth = CalculateConsecLevels("east", adjacentLevels[1]);
-
-                    if (conseqNorth > 2)
-                    {
-                        roomChance = 2;
-                    }
-                    else
-                    {
-                        roomChance = 5;
-                    }
-                }
-            }
-            else if (adjacentLevels[2] != null) // South
-            {
-                intermediateLevelType = "SewerCorridorVertical";
-
-                if (adjacentLevels[2] == "SewerRoom")
-                {
-                    roomChance = 10;
-                }
-                else if (adjacentLevels[1] == "SewerCorridorVertical")
-                {
-                    int conseqNorth = CalculateConsecLevels("south", adjacentLevels[2]);
-
-                    if (conseqNorth > 2)
-                    {
-                        roomChance = 2;
-                    }
-                    else
-                    {
-                        roomChance = 5;
-                    }
-                }
-            }
-            else if (adjacentLevels[3] != null) // West
-            {
-                intermediateLevelType = "SewerCorridorHorizontal";
-                if (adjacentLevels[3] == "SewerRoom")
-                {
-                    roomChance = 10;
-                }
-                else if (adjacentLevels[3] == "SewerCorridorHorizontal")
-                {
-                    int conseqNorth = CalculateConsecLevels("west", adjacentLevels[3]);
-
-                    if (conseqNorth > 2)
-                    {
-                        roomChance = 2;
-                    }
-                    else
-                    {
-                        roomChance = 5;
-                    }
-                }
-            }
-
-            if(rnd.Next(1, roomChance) == 1)
-            {
-                newLevel.levelType = "SewerRoom";
-            }
-            else
-            {
-                newLevel.levelType = intermediateLevelType;
-
-            }
+            newLevel.levelType = corridorLevelName;
         }
+
 
 
         return newLevel;
@@ -204,41 +158,48 @@ public class SewerLevelManager : LevelManager
         /*
          *  Calculates number of levels in given direction
          */
-
+        Debug.LogWarning("=========================");
         string acqLevelType = levelType;
-        int count = 0; 
+        int count = 0;
+        int cycleCount = 1;
         
         while(acqLevelType == levelType)
         {
             int pathID = -1;
+
             switch (direction)
             {
                 case "north":
-                    pathID = GetPathIDAtCoords(x, y+1, z);
+                    pathID = GetPathIDAtCoords(x, y+cycleCount, z);
                     break;
 
                 case "east":
-                    pathID = GetPathIDAtCoords(x+1, y, z);
+                    pathID = GetPathIDAtCoords(x+ cycleCount, y, z);
                     break;
-
                 case "south":
-                    pathID = GetPathIDAtCoords(x, y-1, z);
+                    pathID = GetPathIDAtCoords(x, y- cycleCount, z);
                     break;
-
                 case "west":
-                    pathID = GetPathIDAtCoords(x-1, y, z);
+                    pathID = GetPathIDAtCoords(x- cycleCount, y, z);
                     break;
-            }
 
-            if (pathID != -1)
-            {
-                var resolved = ResolvePath(pathID);
-                acqLevelType = resolved.resLevel.levelType;
-                if (resolved.resLevel.levelType == levelType) count++; 
+
             }
-            else break; // If we hit -1 means nothing exists there
-            
+            Debug.LogWarning("> PATH ID : " + pathID);
+            if (pathID == -1) return count;
+
+            var resolvedDetails = ResolvePath(pathID);
+
+            acqLevelType = resolvedDetails.resLevel.levelType;
+            Debug.LogWarning("HEHEHEHEHHEHE");
+            Debug.LogError("COUNT " + cycleCount + " / " + levelType + " / " + resolvedDetails.resLevel.levelType);
+            if (acqLevelType == levelType) count++;
+            cycleCount++;
+
+
         }
+
+
         return count;
     }
 

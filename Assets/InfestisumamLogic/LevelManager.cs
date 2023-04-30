@@ -140,6 +140,6 @@ public abstract class LevelManager : MonoBehaviour, ILevelManager
         return levels;
     }
 
-    public abstract (Path resPath, Level resLevel) MakeSceneAtCoord(int x, int y, int z);
+    public abstract (Path resPath, Level resLevel) MakeSceneAtCoord(int x, int y, int z, string inDirection);
     public abstract Level CreateLevel();
 }

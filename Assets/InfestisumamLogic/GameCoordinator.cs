@@ -120,7 +120,7 @@ public class GameCoordinator : MonoBehaviour
         {
             if (charManager.GetLocation() == 0)
             {
-                var sceneData = levelManager.MakeSceneAtCoord(0, 0, 0);
+                var sceneData = levelManager.MakeSceneAtCoord(0, 0, 0, "default");
 
                 if (sceneData.resLevel.levelID != 0)
                 {
@@ -192,7 +192,7 @@ public class GameCoordinator : MonoBehaviour
             
            if (pathIDAtCoords == -1)
            {
-               var newLevel = levelManager.MakeSceneAtCoord(currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0);
+               var newLevel = levelManager.MakeSceneAtCoord( currentPath.locX + (xModifier), currentPath.locY + (yModifier), 0, direction);
                charManager.UpdateLocation(newLevel.resPath.pathID, newRoomEntryDirection);
                levelManager.LoadScene(newLevel.resLevel);
            }

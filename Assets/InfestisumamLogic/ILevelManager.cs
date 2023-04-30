@@ -32,7 +32,7 @@ interface ILevelManager
     public int GetPathIDAtCoords(int x, int y, int z);
     public void LoadScene(Level inlevel);
     public (Path resPath, Level resLevel) ResolvePath(int pathID);
-    public (Path resPath, Level resLevel) MakeSceneAtCoord(int x, int y, int z);
+    public (Path resPath, Level resLevel) MakeSceneAtCoord(int x, int y, int z, string inDir);
     //public Level CreateLevel();
 
 }
