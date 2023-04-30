@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LanceVrotController : MonoBehaviour
+public class LanceVrotController : Pawn
 {
 
     [SerializeField] Animator _animation;
@@ -28,6 +28,7 @@ public class LanceVrotController : MonoBehaviour
     private string prevDirection = "east"; // east, south, west, north
 
     private bool moving = false;
+
 
 
 
@@ -76,7 +77,7 @@ public class LanceVrotController : MonoBehaviour
         {
             // No XY input
 
-            if (MyRigidBody.velocity.x < 0.005 && MyRigidBody.velocity.y < 0.005)
+            if (MyRigidBody.velocity.x < 0.0005 && MyRigidBody.velocity.y < 0.0005)
             {
                 // No residual force applied
                 moving = false;
@@ -196,5 +197,9 @@ public class LanceVrotController : MonoBehaviour
     }
 
 
+    override public void Die()
+    {
+        Debug.LogError("DIED!");
+    }
 
 }
