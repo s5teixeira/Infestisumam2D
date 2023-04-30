@@ -200,7 +200,6 @@ public class GameCoordinator : MonoBehaviour
            {
                var levelAtCoords = levelManager.ResolvePath(pathIDAtCoords);
                charManager.UpdateLocation(pathIDAtCoords, newRoomEntryDirection);
-
                levelManager.LoadScene(levelAtCoords.resLevel);
            }
 

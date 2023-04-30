@@ -20,11 +20,11 @@ public class SewerLevelManager : LevelManager
     {
         x = _x; y = _y; z = _z;
         Path newPath = new Path();
-        Level newLevel = new Level();
-        //Level newLevel = CreateLevel();
+        //Level newLevel = new Level();
+        Level newLevel = CreateLevel();
         Debug.Log("DDDDDDD " + newLevel.levelType);
 
-        /*
+        
         IDbCommand dbcmd = dbCon.CreateCommand();
         string createLevelCommand = String.Format("INSERT INTO Level(level_type, north_door_state, east_door_state, south_door_state, west_door_state) VALUES('{0}', 0,0,0,0) RETURNING level_id", newLevel.levelType);
         Debug.Log(createLevelCommand);
@@ -58,7 +58,7 @@ public class SewerLevelManager : LevelManager
             dataReader.Close();
         }
 
-        */
+        
         return (newPath, newLevel);
     }
 
@@ -137,9 +137,8 @@ public class SewerLevelManager : LevelManager
                 {
                     roomChance = 10;
                 }
-                else if (adjacentLevels[2] == "SewerCorridorVertical")
+                else if (adjacentLevels[1] == "SewerCorridorVertical")
                 {
-
                     int conseqNorth = CalculateConsecLevels("south", adjacentLevels[2]);
 
                     if (conseqNorth > 2)
