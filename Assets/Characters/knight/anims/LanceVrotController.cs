@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using TMPro;
+using System;
 
 public class LanceVrotController : Pawn
 {
@@ -16,9 +18,12 @@ public class LanceVrotController : Pawn
     [SerializeField] Sprite WestStationary;
     [SerializeField] GameObject Soul; // Child object that controlls 
     [SerializeField] Camera chaserCamera;
-
-
+    [SerializeField] UIDocument characterUI;
+   
+    // UI controllers
+    private VisualElement heartHost;
     private TextMeshPro DebugOutput;
+    private List<VisualElement> hearts = new List<VisualElement>();
 
 
 
@@ -38,6 +43,10 @@ public class LanceVrotController : Pawn
         //_animation.Play("CharacterWalkup");
         moving = false;
         DebugOutput = Soul.GetComponent<TextMeshPro>();
+        Debug.LogWarning(characterUI.rootVisualElement);
+        heartHost = characterUI.rootVisualElement.Q<VisualElement>("Hearts");
+        health = 3.5f;
+        UpdateHealthUI();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -64,8 +73,9 @@ public class LanceVrotController : Pawn
         {
             UpdateAnims(xAmount, yAmount);
         }
-
+        
         chaserCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+
 
 
     }
@@ -103,12 +113,6 @@ public class LanceVrotController : Pawn
                 direction = (yAmount > 0) ? "north" : "south";
 
             }
-
-
-            // if ()
-            //  {
-
-            //  }
 
 
         }
@@ -196,6 +200,41 @@ public class LanceVrotController : Pawn
 
     }
 
+
+   
+    private void UpdateHealthUI()
+    {
+
+        int fullHearts = (int)Math.Floor(health);
+        bool partialDamage = ((health % 1) != 0);
+
+        
+
+        
+        for(int i = 0; i < fullHearts; i++)
+        {
+            VisualElement heart = new VisualElement();
+            heart.AddToClassList("heartHealth");
+            heart.AddToClassList("heart100");
+            heartHost.Add(heart);
+
+        }
+
+        if (partialDamage)
+        {
+            VisualElement heart = new VisualElement();
+            heart.AddToClassList("heartHealth");
+            heart.AddToClassList("heart50");
+            heartHost.Add(heart);
+        }
+
+
+    }
+
+    override protected void OnDamageTaken()
+    {
+
+    }
 
     override public void Die()
     {
