@@ -1,0 +1,31 @@
+.heartHealth {
+    position: relative;
+    display:block;
+    width: 50px;
+    height: 50px;
+    float:left;
+}
+
+.heartEmpty {
+    background-image: url('project://database/Assets/UI/IMG/sprite_0.png?fileID=2800000&guid=ccfd839e40754054fae20a55137ba609&type=3#sprite_0');
+    width: 100%;
+    height: 100%;
+}
+
+.heart25 {
+    background-image: url('project://database/Assets/UI/IMG/sprite_1.png?fileID=2800000&guid=ae87ac0fb3b1fd647bce2f667ed613bc&type=3#sprite_1');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.heart50 {
+    background-image: url('project://database/Assets/UI/IMG/heartSpriteSheet.png?fileID=1480682806&guid=8aab353f25eb8b34ba130cd764f2bd1d&type=3#heartSpriteSheet_1');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.heart75 {
+    background-image: url('project://database/Assets/UI/IMG/sprite_3.png?fileID=2800000&guid=3f1f86fe4eee96843908e122faad1674&type=3#sprite_3');
+}
+
+.heart100 {
+    background-image: url('project://database/Assets/UI/IMG/heartSpriteSheet.png?fileID=-823474388&guid=8aab353f25eb8b34ba130cd764f2bd1d&type=3#heartSpriteSheet_0');
+}
