@@ -29,6 +29,8 @@ public class BeetleController : Pawn
         if(collider.tag == "PlayerSoul")
         {
 
+
+
         }
 
 
