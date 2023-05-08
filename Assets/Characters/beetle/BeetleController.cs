@@ -6,7 +6,6 @@ public class BeetleController : Pawn
 {
     [SerializeField] Animator beetleAnims;
     [SerializeField] SpriteRenderer beetleSprite;
-    [SerializeField] CircleCollider2D damageCirlce;
 
     private string direction = "south";
     private float attackCooldown = 3.0f;
@@ -23,18 +22,31 @@ public class BeetleController : Pawn
         
     }
 
-
-    public void OnTriggerEntered2D(Collider2D collider)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collider.tag == "PlayerSoul")
+
+        if (!isDead)
         {
-
-
-
+            Pawn pawn = collision.gameObject.GetComponent<Pawn>();
+            pawn.TakeDamage(0.5f);
         }
+    }
+
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+       Debug.Log(collision.gameObject.tag);
+
+    }
+
+
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
 
 
     }
+
 
     override protected void OnDamageTaken()
     {
@@ -44,6 +56,10 @@ public class BeetleController : Pawn
     override public void Die()
     {
         Debug.Log("Beetle is mc dead");
+
+        beetleAnims.enabled = false;
+        GetComponent<SpriteRenderer>().color = Color.red;
+
     }
 
 }

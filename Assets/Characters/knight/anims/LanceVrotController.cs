@@ -19,6 +19,7 @@ public class LanceVrotController : Pawn
     [SerializeField] GameObject Soul; // Child object that controlls 
     [SerializeField] Camera chaserCamera;
     [SerializeField] UIDocument characterUI;
+    [SerializeField] DamageDealer currentWeapon;
    
     // UI controllers
     private VisualElement heartHost;
@@ -27,13 +28,12 @@ public class LanceVrotController : Pawn
 
 
 
-
     //Character control
-    private string direction = "east"; // east, south, west, north
-    private string prevDirection = "east"; // east, south, west, north
+    private string direction = "south"; // east, south, west, north
+    private string prevDirection = "south"; // east, south, west, north
 
     private bool moving = false;
-
+    
 
 
 
@@ -55,29 +55,36 @@ public class LanceVrotController : Pawn
 
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        float xAmount = Input.GetAxis("Horizontal");
-        float yAmount = Input.GetAxis("Vertical");
-
-        DebugOutput.SetText("Moving: " + moving + "; " + MyRigidBody.velocity.x + "/" + MyRigidBody.velocity.y + "; " + direction);
-        ProcessControlls(xAmount, yAmount);
-
-        moving = !((MyRigidBody.velocity.x == 0 && MyRigidBody.velocity.y == 0) && (xAmount == 0 && yAmount == 0));
-        prevDirection = direction;
-
-        UpdateMotionState(xAmount, yAmount);
-
-        if(prevDirection != direction || !moving)
+        if (!isDead)
         {
-            UpdateAnims(xAmount, yAmount);
+            float xAmount = Input.GetAxis("Horizontal");
+            float yAmount = Input.GetAxis("Vertical");
+
+            DebugOutput.SetText("Moving: " + moving + "; " + MyRigidBody.velocity.x + "/" + MyRigidBody.velocity.y + "; " + direction + "; CAN ATTACK: " + currentWeapon.CanAttack()) ;
+            ProcessControlls(xAmount, yAmount);
+
+            moving = !((MyRigidBody.velocity.x == 0 && MyRigidBody.velocity.y == 0) && (xAmount == 0 && yAmount == 0));
+            prevDirection = direction;
+
+            UpdateMotionState(xAmount, yAmount);
+
+            if (prevDirection != direction || !moving)
+            {
+                UpdateAnims(xAmount, yAmount);
+            }
+
+            chaserCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                currentWeapon.Attack();
+            }
+
         }
-        
-        chaserCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
-
-
-
     }
 
 
@@ -120,8 +127,80 @@ public class LanceVrotController : Pawn
     }
 
 
+    
+
+
     private void UpdateAnims(float xAmount, float yAmount)
     {
+
+        _animation.enabled = moving;
+        currentWeapon.RotateWeapon(transform, direction);
+
+        switch (direction)
+        {
+            case "east":
+                //Debug.Log("Stopped EAST");
+                if (moving)
+                {
+                    MySpriteRenderer.flipX = false;
+                    
+                    _animation.Play("CharacterWalking");
+
+                }
+                else
+                {
+                    MySpriteRenderer.sprite = NorthStationary;
+                }
+
+                break;
+            case "west":
+                //Debug.Log("Stopped WEST");
+                if (moving)
+                {
+                    MySpriteRenderer.flipX = true;
+                    _animation.Play("CharacterWalking");
+
+                }
+                else
+                {
+                    MySpriteRenderer.sprite = WestStationary;
+
+                }
+
+                break;
+            case "south":
+                //Debug.Log("Stopped SOUTH");
+                if (moving)
+                {
+                    _animation.Play("CharacterWalkdown");
+
+                }
+                else
+                {
+                    MySpriteRenderer.sprite = SouthStationary;
+                }
+                break;
+            case "north":
+                //Debug.Log("Stopped SOUTH");
+                if (moving)
+                {
+                    _animation.Play("CharacterWalkup");
+
+                }
+                else
+                {
+                    MySpriteRenderer.sprite = NorthStationary;
+
+                }
+
+
+                break;
+        }
+
+
+
+
+        /*
 
         if (!moving)
         {
@@ -179,7 +258,7 @@ public class LanceVrotController : Pawn
             }
 
         }
-
+        */
 
     }
 
@@ -208,8 +287,8 @@ public class LanceVrotController : Pawn
         int fullHearts = (int)Math.Floor(health);
         bool partialDamage = ((health % 1) != 0);
 
-        
 
+        heartHost.Clear();
         
         for(int i = 0; i < fullHearts; i++)
         {
@@ -233,7 +312,7 @@ public class LanceVrotController : Pawn
 
     override protected void OnDamageTaken()
     {
-
+        UpdateHealthUI();
     }
 
     override public void Die()
