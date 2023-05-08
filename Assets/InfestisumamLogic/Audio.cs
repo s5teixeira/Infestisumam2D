@@ -10,8 +10,15 @@ public class AudioPlayer : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = audioClip;
+        audioClip = GetComponent<AudioClip>();
     }
-    
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            audioSource.Play();
+        }
+    }
 
 }
