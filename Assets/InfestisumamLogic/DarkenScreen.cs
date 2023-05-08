@@ -18,4 +18,17 @@ public class DarkenScreen : MonoBehaviour
         
     }
 
+    public void StartDarkening()
+    {
+        isDarkening = true;
+    }
+    void Update()
+    {
+        if (isDarkening)
+        {
+            float alpha = image.color.a + darkeningSpeed * Time.deltaTime;
+            alpha = Mathf.Clamp(alpha, 0, maxAlpha);
+            image.color = new Color(0, 0, 0, alpha);
+        }
+    }
 }
