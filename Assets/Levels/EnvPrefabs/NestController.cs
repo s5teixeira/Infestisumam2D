@@ -18,6 +18,14 @@ public class NestController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(SpawnTimeout > 0)
+        {
+            SpawnTimeout -= Time.deltaTime;
+        }
+        else
+        {
+            SpawnTimeout = 5.0f;
+            Instantiate(SpawnEnemy);
+        }
     }
 }

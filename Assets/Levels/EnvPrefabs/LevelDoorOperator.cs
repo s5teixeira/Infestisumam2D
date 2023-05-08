@@ -44,7 +44,7 @@ public class LevelDoorOperator : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerSoul" && !playerInTriggerZone)
+        if (collision.gameObject.tag == "Player" && !playerInTriggerZone)
         {
             playerInTriggerZone = true;
 
@@ -63,7 +63,7 @@ public class LevelDoorOperator : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerSoul" && playerInTriggerZone)
+        if (collision.gameObject.tag == "Player" && playerInTriggerZone)
         {
             playerInTriggerZone = false;
         }

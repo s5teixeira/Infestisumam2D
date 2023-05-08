@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3493146174681363467}
   - component: {fileID: 4671934069705416505}
+  - component: {fileID: 520931772956136039}
+  - component: {fileID: 6663943217887489414}
   m_Layer: 0
   m_Name: BeetleNest
   m_TagString: Untagged
@@ -72,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 2a01b41d0fb8b10489acbb8298526693, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -84,3 +86,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &520931772956136039
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253777442845913004}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.06581354, y: 0}
+  serializedVersion: 2
+  m_Radius: 6.398027
+--- !u!114 &6663943217887489414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253777442845913004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c351cdc981dfdbf4a8ea2cf045256c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnTimeout: 5
+  SpawnEnemy: {fileID: 177177919859782435, guid: 2861a707019f43a478a3b35b935df9fd, type: 3}
