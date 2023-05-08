@@ -14,7 +14,7 @@ public abstract class Pawn : MonoBehaviour, IMortal
     public void TakeDamage(float damage)
     {
         // I want single damage taking rule for everyone
-
+        Debug.Log("Took damage of " + damage);
         float remainingDamage = damage; 
         if(armor > 0.0f)
         {
@@ -29,6 +29,7 @@ public abstract class Pawn : MonoBehaviour, IMortal
             isDead = true;
             Die();
         }
+        Debug.Log("Took damage of " + damage + ", my health right now is " + health + " and I am " + (isDead ? "dead": "alive"));
 
     }
 

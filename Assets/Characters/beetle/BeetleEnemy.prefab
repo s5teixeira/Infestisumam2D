@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1040867614458314374}
-  - component: {fileID: 5497016634244419726}
   - component: {fileID: 8841804541825693078}
   - component: {fileID: 7700241167147545632}
   - component: {fileID: 3242762087522526276}
+  - component: {fileID: 177177919859782435}
   m_Layer: 0
   m_Name: BeetleEnemy
   m_TagString: Untagged
@@ -35,21 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5497016634244419726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3635146835113377897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c633bd09f69864541ba3ea4220689a06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beetleAnims: {fileID: 7700241167147545632}
-  beetleSprite: {fileID: 8841804541825693078}
-  damageCirlce: {fileID: 3242762087522526276}
 --- !u!212 &8841804541825693078
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -138,3 +123,17 @@ CircleCollider2D:
   m_Offset: {x: 0.0010634661, y: 0.0053174794}
   serializedVersion: 2
   m_Radius: 0.0834282
+--- !u!114 &177177919859782435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3635146835113377897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c633bd09f69864541ba3ea4220689a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beetleAnims: {fileID: 7700241167147545632}
+  beetleSprite: {fileID: 8841804541825693078}
